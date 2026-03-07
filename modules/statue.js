@@ -41,21 +41,21 @@ export const loadStatueModel = (scene, interactiveObjects = []) => {
       }
       scene.add(model);
 
-      const folder = gui.addFolder(folderName);
-      folder.add(model.position, 'x', -20, 20, 0.1).name('Pos X');
-      folder.add(model.position, 'y', -10, 10, 0.1).name('Pos Y');
-      folder.add(model.position, 'z', -20, 20, 0.1).name('Pos Z');
-      folder.add(model.scale, 'x', 0.1, 20, 0.1).name('Scale X').onChange(v => { model.scale.y = v; model.scale.z = v; });
-      folder.add(model.rotation, 'y', -Math.PI*2, Math.PI*2, 0.1).name('Rotation Y');
+      // const folder = gui.addFolder(folderName);
+      // folder.add(model.position, 'x', -20, 20, 0.1).name('Pos X');
+      // folder.add(model.position, 'y', -10, 10, 0.1).name('Pos Y');
+      // folder.add(model.position, 'z', -20, 20, 0.1).name('Pos Z');
+      // folder.add(model.scale, 'x', 0.1, 20, 0.1).name('Scale X').onChange(v => { model.scale.y = v; model.scale.z = v; });
+      // folder.add(model.rotation, 'y', -Math.PI*2, Math.PI*2, 0.1).name('Rotation Y');
       
-      // Cho phép User tự kéo độ sáng theo màu Hex
-      folder.addColor(params, 'emissive').name('Brightness').onChange(v => {
-          model.traverse((child) => {
-              if (child.isMesh && child.material && child.material.emissive) {
-                  child.material.emissive.setHex(v);
-              }
-          });
-      });
+      // // Cho phép User tự kéo độ sáng theo màu Hex
+      // folder.addColor(params, 'emissive').name('Brightness').onChange(v => {
+      //     model.traverse((child) => {
+      //         if (child.isMesh && child.material && child.material.emissive) {
+      //             child.material.emissive.setHex(v);
+      //         }
+      //     });
+      // });
       folder.open();
   }
 
