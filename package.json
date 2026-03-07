@@ -7,7 +7,7 @@
   "license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npx giget install git-lfs && git lfs pull && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
