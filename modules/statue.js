@@ -14,7 +14,7 @@ export const loadStatueModel = (scene, interactiveObjects = []) => {
       model.position.copy(initialPos);
       model.scale.copy(initialScale);
       
-      const params = { emissive: 0x333333 }; // Sáng lên trông thấy
+      const params = { emissive: 0x333333 };
 
       model.traverse((child) => {
         if (child.isMesh) {
