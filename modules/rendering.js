@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { displayPaintingInfo, hidePaintingInfo } from "./paintingInfo.js";
 import { updateMovement } from "./movement.js";
+import { updateInteraction, isHovering } from "../src/interaction.js";
 
 export const setupRendering = (
   scene,
@@ -16,6 +17,7 @@ export const setupRendering = (
     const delta = clock.getDelta();
 
     updateMovement(delta, controls, camera, walls);
+    updateInteraction(camera);
 
     // Only check for paintings if the user has started (controls are locked)
     if (controls.isLocked) {
@@ -31,10 +33,14 @@ export const setupRendering = (
       if (paintingToShow) {
         displayPaintingInfo(paintingToShow.userData.info);
       } else {
-        hidePaintingInfo();
+        if (!isHovering()) {
+            hidePaintingInfo();
+        }
       }
     } else {
-      hidePaintingInfo();
+      if (!isHovering()) {
+          hidePaintingInfo();
+      }
     }
 
     renderer.gammaOutput = true;

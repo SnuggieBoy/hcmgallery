@@ -14,6 +14,7 @@ import { setupAudio } from "./modules/audioGuide.js";
 import { clickHandling } from "./modules/clickHandling.js";
 import { setupVR } from "./modules/VRSupport.js";
 import { loadStatueModel } from "./modules/statue.js";
+import { setupInteraction } from "./src/interaction.js";
 import { loadBenchModel } from "./modules/bench.js";
 import { loadCeilingLampModel } from "./modules/ceilingLamp.js";
 
@@ -41,10 +42,21 @@ setupEventListeners(controls);
 
 clickHandling(renderer, camera, paintings);
 
-setupRendering(scene, camera, renderer, paintings, controls, walls);
-
   console.log("Loading Statue Model...");
-  loadStatueModel(scene);
+  
+  // Create an array for all items that can be hovered/interacted via crosshair
+  const interactiveObjects = [...paintings];
+  
+  // Have the old statue loader push the new models into this array
+  loadStatueModel(scene, interactiveObjects);
+
+  // Setup the hover/click logic via the crosshair
+  setupInteraction(camera, interactiveObjects);
+
+  // Expose it globally so rendering.js can access it, or just let rendering.js import `updateInteraction`
+  window.interactiveCamera = camera;
+
+  setupRendering(scene, camera, renderer, paintings, controls, walls);
 
   // loadBenchModel(scene);
   
