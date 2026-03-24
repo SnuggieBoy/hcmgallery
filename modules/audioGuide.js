@@ -12,11 +12,11 @@ export const setupAudio = (camera) => {
   sound = new THREE.Audio(listener); // creating the audio source
 
   const audioLoader = new THREE.AudioLoader(); // create an audio loader
-  audioLoader.load("sounds/tiersen.mp3", function (buffer) {
+  audioLoader.load("audio/ambient.ogg", function (buffer) {
     // load the audio file
     sound.setBuffer(buffer); // set the audio source buffer
     sound.setLoop(true); // set the audio source to loop
-    sound.setVolume(0.5); // set the audio source volume
+    sound.setVolume(0.3); // soothe the volume
     bufferLoaded = true; // set bufferLoaded flag to true once the audio buffer is loaded
   });
 };

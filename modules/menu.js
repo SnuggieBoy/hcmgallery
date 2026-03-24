@@ -8,10 +8,13 @@ export const showMenu = () => {
   menu.style.display = 'block'; // Show the menu
 };
 
+import { startAudio } from './audioGuide.js';
+
 // Lock the pointer (controls are activated) and hide the menu when the experience starts
 export const startExperience = (controls) => {
   controls.lock(); // Lock the pointer (controls are activated)
   hideMenu();
+  startAudio(); // Auto-start ambient track!
 };
 
 export const setupPlayButton = (controls) => {
