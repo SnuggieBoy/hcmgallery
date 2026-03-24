@@ -1,93 +1,98 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 export let deskBox = new THREE.Box3();
 
 const FLOOR_Y = -Math.PI;
 
-function processModel(model, isInteractive, interactiveObjects, castShadow=true, receiveShadow=true) {
-    model.traverse((child) => {
-        if (child.isMesh) {
-            child.castShadow = castShadow;
-            child.receiveShadow = receiveShadow;
-        }
-    });
-    if (isInteractive) {
-        model.userData.interactive = true;
-        interactiveObjects.push(model);
-    }
-}
-
 export const loadOfficeModels = (scene, interactiveObjects) => {
-    const loader = new GLTFLoader();
-
-    // Desk
-    loader.load('/models2/antique_office_desk.glb', (gltf) => {
-        const desk = gltf.scene;
-        desk.name = 'desk';
-        processModel(desk, false, interactiveObjects);
-        
-        // Desk sits on the floor at the center
-        desk.position.set(0, FLOOR_Y, 0);
-        // Turn the desk
-        desk.rotation.y = Math.PI; 
-        
-        // The scale might be too small
-        desk.scale.set(6, 6, 6);
-        
-        // Compute bounding box for collision after scale and position
-        desk.updateMatrixWorld();
-        const box = new THREE.Box3().setFromObject(desk);
-        box.expandByScalar(0.5); // padding so player doesn't clip into it
-        deskBox.copy(box);
-        
-        scene.add(desk);
+    // --- Breathtaking modern "Equality" sculpture ---
+    
+    // Pink Ring
+    const geometry1 = new THREE.TorusGeometry(2, 0.4, 32, 100);
+    const material1 = new THREE.MeshStandardMaterial({ 
+        color: 0xec4899,
+        roughness: 0.1,
+        metalness: 0.9,
     });
-
-    // Typewriter
-    loader.load('/models2/typewriter.glb', (gltf) => {
-        const typewriter = gltf.scene;
-        typewriter.name = 'typewriter';
-        processModel(typewriter, true, interactiveObjects);
-        
-        // Position relative to scaled desk
-        // If desk is scale 6, desk height might be ~6 units tall if original was 1 unit.
-        // Or if original is normal cm scale, 6 is huge. 
-        // Let's assume desk top is ~4.5 units above FLOOR_Y for testing. We can tweak.
-        typewriter.position.set(0, FLOOR_Y + 4.5, 0.3); 
-        scene.add(typewriter);
+    const ring1 = new THREE.Mesh(geometry1, material1);
+    ring1.position.set(0, FLOOR_Y + 4, 0);
+    ring1.rotation.y = Math.PI / 4;
+    ring1.rotation.x = Math.PI / 8;
+    ring1.castShadow = true;
+    
+    // Blue Ring
+    const geometry2 = new THREE.TorusGeometry(2, 0.4, 32, 100);
+    const material2 = new THREE.MeshStandardMaterial({ 
+        color: 0x3b82f6,
+        roughness: 0.1,
+        metalness: 0.9,
     });
+    const ring2 = new THREE.Mesh(geometry2, material2);
+    ring2.position.set(0, FLOOR_Y + 4, 0);
+    ring2.rotation.y = -Math.PI / 4;
+    ring2.rotation.x = -Math.PI / 8;
+    ring2.castShadow = true;
 
-    // Radio
-    loader.load('/models2/vintage_radio.glb', (gltf) => {
-        const radio = gltf.scene;
-        radio.name = 'vintage_radio';
-        processModel(radio, true, interactiveObjects);
-
-        radio.position.set(1.5, FLOOR_Y + 4.5, 0);
-        
-        scene.add(radio);
+    // Glowing Central Orb (Representing Unity)
+    const orbGeom = new THREE.SphereGeometry(0.8, 40, 40);
+    const orbMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        emissive: 0xffffff,
+        emissiveIntensity: 1,
+        transparent: true,
+        opacity: 0.9
     });
+    const orb = new THREE.Mesh(orbGeom, orbMat);
+    orb.position.set(0, FLOOR_Y + 4, 0);
+    
+    // Purple Core Light
+    const pointLight = new THREE.PointLight(0x8b5cf6, 15, 20);
+    pointLight.position.set(0, FLOOR_Y + 4, 0);
+    pointLight.castShadow = true;
 
-    // Lamp
-    loader.load('/models2/old_vintage_desk_lamp.glb', (gltf) => {
-        const lamp = gltf.scene;
-        lamp.name = 'lamp';
-        processModel(lamp, false, interactiveObjects);
-        
-        lamp.position.set(-1.0, FLOOR_Y + 4.5, 0);
-        lamp.scale.set(1.5, 1.5, 1.5);
-        scene.add(lamp);
+    // Sleek Pedestal Base
+    const baseGeom = new THREE.CylinderGeometry(2, 2.5, 0.5, 32);
+    const baseMat = new THREE.MeshStandardMaterial({ 
+        color: 0x1e293b,
+        metalness: 0.7,
+        roughness: 0.2
     });
+    const base = new THREE.Mesh(baseGeom, baseMat);
+    base.position.set(0, FLOOR_Y + 0.25, 0);
+    base.receiveShadow = true;
+    base.castShadow = true;
 
-    // Window frame (optional decoration)
-    loader.load('/models2/victorian_triple_window_frame_mri_-1.glb', (gltf) => {
-        const windowFrame = gltf.scene;
-        windowFrame.name = 'window';
-        processModel(windowFrame, true, interactiveObjects);
+    // Assemble Group
+    const group = new THREE.Group();
+    group.add(ring1);
+    group.add(ring2);
+    group.add(orb);
+    group.add(pointLight);
+    group.add(base);
+    group.name = 'equality_sculpture';
+    
+    // Constant rotation animation in rendering.js or we can just leave it static 
+    // or add a flag to rotate it via eventListeners/rendering.
+    group.userData.isAnimating = true;
 
-        // Position on a wall (e.g. back wall behind desk)
-        windowFrame.position.set(0, FLOOR_Y + 4, -19.5);
-        scene.add(windowFrame);
+    scene.add(group);
+
+    // Update collision box
+    const box = new THREE.Box3().setFromObject(group);
+    box.expandByScalar(1.5); // Provide walking padding
+    deskBox.copy(box);
+
+    // Make interactive to show info overlay
+    group.children.forEach(child => {
+        child.userData = {
+            interactive: true,
+            info: {
+                title: "Biểu tượng Giao Thoa",
+                description: "Tác phẩm điêu khắc nghệ thuật đại diện cho sự hòa hợp, tôn trọng và san sẻ giữa hai giới (xanh và hồng) để tạo ra lõi sáng hạnh phúc.",
+                artist: "Trạm Chia Sẻ",
+                year: "Vĩnh Cửu"
+            }
+        };
+        interactiveObjects.push(child);
     });
 };

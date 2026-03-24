@@ -1,89 +1,90 @@
-import * as THREE from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
-import * as dat from 'dat.gui';
+import * as THREE from 'three';
+
+const FLOOR_Y = -Math.PI;
 
 export const loadStatueModel = (scene, interactiveObjects = []) => {
-  const loader = new GLTFLoader();
-  const FLOOR_Y = -Math.PI; // -3.14
+    // --- Breathtaking modern "Equality" sculpture ---
+    
+    // Pink Ring
+    const geometry1 = new THREE.TorusGeometry(2, 0.4, 64, 128);
+    const material1 = new THREE.MeshStandardMaterial({ 
+        color: 0xec4899,
+        roughness: 0.1,
+        metalness: 0.9,
+    });
+    const ring1 = new THREE.Mesh(geometry1, material1);
+    ring1.position.set(0, FLOOR_Y + 4, 0);
+    ring1.rotation.y = Math.PI / 4;
+    ring1.rotation.x = Math.PI / 8;
+    ring1.castShadow = true;
+    
+    // Blue Ring
+    const geometry2 = new THREE.TorusGeometry(2, 0.4, 64, 128);
+    const material2 = new THREE.MeshStandardMaterial({ 
+        color: 0x3b82f6,
+        roughness: 0.1,
+        metalness: 0.9,
+    });
+    const ring2 = new THREE.Mesh(geometry2, material2);
+    ring2.position.set(0, FLOOR_Y + 4, 0);
+    ring2.rotation.y = -Math.PI / 4;
+    ring2.rotation.x = -Math.PI / 8;
+    ring2.castShadow = true;
 
-  // Create a GUI
-  const gui = new dat.GUI();
-  
-  function processModel(model, name, folderName, initialPos, initialScale, isInteractive) {
-      model.name = name;
-      model.position.copy(initialPos);
-      model.scale.copy(initialScale);
-      
-      const params = { emissive: 0x333333 };
+    // Glowing Central Orb (Representing Unity)
+    const orbGeom = new THREE.SphereGeometry(0.8, 64, 64);
+    const orbMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        emissive: 0xffffff,
+        emissiveIntensity: 0.5,
+        transparent: true,
+        opacity: 0.8
+    });
+    const orb = new THREE.Mesh(orbGeom, orbMat);
+    orb.position.set(0, FLOOR_Y + 4, 0);
+    
+    // Purple Core Light
+    const pointLight = new THREE.PointLight(0x8b5cf6, 8, 20);
+    pointLight.position.set(0, FLOOR_Y + 4, 0);
+    pointLight.castShadow = true;
 
-      model.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-          if (child.material) {
-              child.material.metalness = 0.0;
-              child.material.roughness = 1.0;
-              
-              if (!child.material.emissive) child.material.emissive = new THREE.Color();
-              child.material.emissive.setHex(params.emissive);
-              
-              if (child.material.map) {
-                  child.material.map.colorSpace = THREE.SRGBColorSpace;
-              }
-              child.material.needsUpdate = true;
-          }
-        }
-      });
-      
-      if (isInteractive) {
-          model.userData.interactive = true;
-          interactiveObjects.push(model);
-      }
-      scene.add(model);
+    // Sleek Pedestal Base
+    const baseGeom = new THREE.CylinderGeometry(2, 2.5, 0.5, 64);
+    const baseMat = new THREE.MeshStandardMaterial({ 
+        color: 0x1e293b,
+        metalness: 0.8,
+        roughness: 0.2
+    });
+    const base = new THREE.Mesh(baseGeom, baseMat);
+    base.position.set(0, FLOOR_Y + 0.25, 0);
+    base.receiveShadow = true;
+    base.castShadow = true;
 
-      // const folder = gui.addFolder(folderName);
-      // folder.add(model.position, 'x', -20, 20, 0.1).name('Pos X');
-      // folder.add(model.position, 'y', -10, 10, 0.1).name('Pos Y');
-      // folder.add(model.position, 'z', -20, 20, 0.1).name('Pos Z');
-      // folder.add(model.scale, 'x', 0.1, 20, 0.1).name('Scale X').onChange(v => { model.scale.y = v; model.scale.z = v; });
-      // folder.add(model.rotation, 'y', -Math.PI*2, Math.PI*2, 0.1).name('Rotation Y');
-      
-      // // Cho phép User tự kéo độ sáng theo màu Hex
-      // folder.addColor(params, 'emissive').name('Brightness').onChange(v => {
-      //     model.traverse((child) => {
-      //         if (child.isMesh && child.material && child.material.emissive) {
-      //             child.material.emissive.setHex(v);
-      //         }
-      //     });
-      // });
-      folder.open();
-  }
+    // Assemble Group
+    const group = new THREE.Group();
+    group.add(ring1);
+    group.add(ring2);
+    group.add(orb);
+    group.add(pointLight);
+    group.add(base);
+    group.name = 'equality_sculpture';
+    
+    scene.add(group);
 
-  // 1. Load Desk
-  loader.load("/models2/antique_office_desk.glb", (gltf) => {
-      const desk = gltf.scene;
-      processModel(desk, 'desk', 'Office Desk', new THREE.Vector3(0, -3.1, 0), new THREE.Vector3(2, 2, 2), false);
-      desk.rotation.y = 0;
-  });
+    // Make interactive to show info overlay
+    group.children.forEach(child => {
+        child.userData = {
+            interactive: true,
+            info: {
+                title: "Biểu tượng Giao Thoa",
+                description: "Tác phẩm điêu khắc nghệ thuật đại diện cho sự hòa hợp, tôn trọng và san sẻ giữa hai giới (xanh và hồng) để tạo ra lõi sáng hạnh phúc.",
+                artist: "Trạm Chia Sẻ",
+                year: "Vĩnh Cửu"
+            }
+        };
+        interactiveObjects.push(child);
+    });
 
-  // 2. Load Typewriter
-  loader.load("/models2/typewriter.glb", (gltf) => {
-      const typewriter = gltf.scene;
-      processModel(typewriter, 'typewriter', 'Typewriter', new THREE.Vector3(-0.4, 1, 0.5), new THREE.Vector3(3, 3, 3), true);
-      typewriter.rotation.y = 0;
-  });
-
-  // 3. Load Radio
-  loader.load("/models2/vintage_radio.glb", (gltf) => {
-      const radio = gltf.scene;
-      processModel(radio, 'vintage_radio', 'Radio', new THREE.Vector3(1.4, 1.6, 0), new THREE.Vector3(1, 1, 1), true);
-      radio.rotation.y = -0.7;
-  });
-
-  // 4. Load Lamp
-  loader.load("/models2/old_vintage_desk_lamp.glb", (gltf) => {
-      const lamp = gltf.scene;
-      processModel(lamp, 'lamp', 'Desk Lamp', new THREE.Vector3(-1.7, 1, 0.5), new THREE.Vector3(1.5, 1.5, 1.5), true);
-      lamp.rotation.y = 0.8;
-  });
+    // We can expose the rings for animation if needed
+    window.equalityRings = [ring1, ring2];
 };

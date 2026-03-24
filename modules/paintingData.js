@@ -1,87 +1,97 @@
-// Source data from user's 2D website
+// Data pointing to locally downloaded Unsplash images
 const sourceData = [
-  // Period 1930 - 1945
-  {
-        img: "phong-trao-xo-viet-nghe-tinh.jpg",
-        title: "Cao trào Xô Viết Nghệ Tĩnh",
-        desc: "Bức tranh tái hiện khí thế ngất trời của phong trào công nông 1930-1931, giáng đòn mạnh mẽ vào chính quyền thực dân phong kiến."
+    // Front Wall (Items 0-3)
+    {
+        img: "family1.jpg",
+        title: "Sự Gắn Kết Gia Đình",
+        desc: "Bình đẳng giới bắt nguồn từ sự thấu hiểu, yêu thương và gắn kết. Một gia đình hạnh phúc là nơi mọi người cùng bước song hành."
     },
     {
-        img: "phong-trao-xo-viet-nghe-tinh-2.jpg",
-        title: "Khẩu hiệu cốt lõi năm 1930",
-        desc: "Phù điêu khắc họa hình ảnh quần chúng công nông với vũ khí thô sơ cùng khẩu hiệu 'Đả đảo phong kiến', 'Bớt giờ làm'."
+        img: "cooking.jpg",
+        title: "Chia Sẻ Bếp Núc",
+        desc: "Trách nhiệm nội trợ không thuộc về riêng ai. Nam giới hiện đại luôn chủ động cùng bếp núc để chia sẻ gánh nặng với vợ."
     },
     {
-        img: "chien-si-tu-ve-do-qdnd-vn.jpg",
-        title: "Sự ra đời của Tự Vệ Đỏ",
-        desc: "Lực lượng vũ trang quần chúng đầu tiên của cách mạng Việt Nam, được thành lập để bảo vệ chính quyền Xô Viết non trẻ."
+        img: "woman_leader.jpg",
+        title: "Phụ Nữ Lãnh Đạo",
+        desc: "Người phụ nữ hiện đại có đầy đủ năng lực và cơ hội để phát triển sự nghiệp rực rỡ, độc lập tài chính và vươn tới thành công."
     },
     {
-        img: "bieu-tinh-cong-nong.jpg",
-        title: "Công Nông thức tỉnh",
-        desc: "Hình ảnh những người nông dân và công nhân nghèo khổ kề vai sát cánh trong các cuộc tuần hành chống lại ách áp bức."
-    },
-    {
-        img: "bieu-tinh-cong-nong-1.jpg",
-        title: "Làn sóng Cách mạng",
-        desc: "Quần chúng nhân dân rợp cờ đỏ, rầm rộ biểu tình thị uy sức mạnh dưới sự lãnh đạo của Đảng."
-    },
-    {
-        img: "phong-trao-xo-viet-nghe-tinh-1.jpg",
-        title: "Tập hợp Lực lượng",
-        desc: "Sự đoàn kết và quy tụ lực lượng đông đảo của nhân dân trong các buổi hội nghị, mít tinh thời kỳ đầu."
+        img: "father_daughter.jpg",
+        title: "Tình Phụ Tử",
+        desc: "Đàn ông chăm con không phải là 'giúp vợ', đó là bản năng và trách nhiệm của người cha trong gia đình XHCN."
     },
 
-    // --- GIAI ĐOẠN 1936 - 1939: ĐẤU TRANH CÔNG KHAI (Trọng tâm của Scene 3D) ---
+    // Back Wall (Items 4-7)
     {
-        img: "co-quan-dan-chu.webp",
-        title: "Báo chí Cách mạng (1936-1939)",
-        desc: "Trụ sở báo 'Tin Tức' - cơ quan ngôn luận của Mặt trận Dân chủ Đông Dương, vũ khí đấu tranh công khai hợp pháp cực kỳ sắc bén."
+        img: "couple_budget.jpg",
+        title: "Cùng Ra Quyết Định",
+        desc: "Các vấn đề tài chính, định hướng gia đình đều được cả hai vợ chồng bàn bạc dân chủ, tôn trọng quyền quyết định của nhau."
     },
     {
-        img: "phong-trao-dan-chu.webp",
-        title: "Mặt trận Dân chủ Đông Dương",
-        desc: "Cuộc đấu tranh công khai của Đoàn Phụ nữ, xuống đường đòi quyền bình đẳng, dân sinh và dân chủ."
+        img: "loving.jpg",
+        title: "Yêu Thương Công Bằng",
+        desc: "Không có sự thiên vị giữa con trai và con gái. Mọi trẻ em đều được hưởng quyền như nhau."
     },
     {
-        img: "phong-trao-dan-chu-1.webp",
-        title: "Mít tinh Khu Đấu xảo (1/5/1938)",
-        desc: "Cuộc biểu dương lực lượng lớn nhất lịch sử lúc bấy giờ với hơn 2,5 vạn người tham gia tại Hà Nội, đòi quyền lợi thiết thực."
+        img: "painting.jpg",
+        title: "Xây Dựng Không Gian",
+        desc: "Việc nặng nhọc như sửa nhà không chỉ dành cho đàn ông. Phụ nữ cũng có thể tự tay tân trang tổ ấm cùng chồng."
     },
     {
-        img: "phong-trao-dan-chu-2.jpg",
-        title: "Sức mạnh Quần chúng",
-        desc: "Sự giác ngộ và tinh thần đoàn kết tuyệt vời của các tầng lớp nhân dân trong giai đoạn đấu tranh nửa công khai."
+        img: "hugging.jpg",
+        title: "Sự Thấu Hiểu",
+        desc: "Bình đẳng nhất là khi ta biết xoa dịu nỗi đau và chia sẻ mọi áp lực trong công việc cũng như cuộc sống của bạn đời."
     },
 
-    // --- GIAI ĐOẠN 1941 - 1945: TỔNG KHỞI NGHĨA GIÀNH CHÍNH QUYỀN ---
+    // Left Wall (Items 8-11)
     {
-        img: "mat-tran-viet-nam.jpg",
-        title: "Chương trình Việt Minh (1941)",
-        desc: "Văn kiện lịch sử gồm 10 chính sách lớn của Mặt trận Việt Minh nhằm đánh đuổi đế quốc, giải phóng dân tộc."
+        img: "family_40.jpg",
+        title: "Gia Đình Thời Đại 4.0",
+        desc: "Mô hình gia đình hạt nhân, nơi tiếng cười là chuẩn mực cao nhất đánh giá sự bình yên và công bằng giữa các thành viên."
     },
     {
-        img: "su-ra-doi-mat-tran-VM.webp", // Giữ nguyên đuôi .webp theo tên file ông đã cấu hình
-        title: "Phát xít Nhật đầu hàng (1945)",
-        desc: "Quân đội Nhật Bản giao nộp vũ khí, tạo ra 'thời cơ vàng' ngàn năm có một cho Tổng khởi nghĩa tháng Tám."
+        img: "dad_baby.jpg",
+        title: "Chia Sẻ Trách Nhiệm",
+        desc: "Không phải 'chức năng bẩm sinh', chăm sóc con mọn là chặng đường cả hai vợ chồng cùng đồng hành thức khuya dậy sớm."
     },
     {
-        img: "viet-minh-tuyen-truyen.jpg",
-        title: "Tình đoàn kết Quân - Dân",
-        desc: "Chủ tịch Hồ Chí Minh chung vui cùng nhân dân và chiến sĩ, biểu tượng cho sức mạnh gắn bó máu thịt của khối đại đoàn kết."
+        img: "mom_son.jpg",
+        title: "Giáo Dục Tương Lai",
+        desc: "Môi trường gia đình là lớp học đầu tiên. Cha mẹ bình đẳng là tấm gương sáng nhất giáo dục tư duy cởi mở cho thế hệ sau."
     },
     {
-        img: "mat-tran-viet-nam-voi-CMVN.jpg",
-        title: "Tuyên ngôn Độc lập (2/9/1945)",
-        desc: "Lễ đài tại Quảng trường Ba Đình lịch sử, nơi khai sinh ra nước Việt Nam Dân chủ Cộng hòa."
+        img: "celebration.jpg",
+        title: "Dòng Họ Văn Minh",
+        desc: "Xóa bỏ định kiến 'trọng nam khinh nữ', loại trừ áp lực sinh con trai nối dõi là bước tiến lớn của gia đình Việt Nam."
+    },
+
+    // Right Wall (Items 12-15)
+    {
+        img: "women_conference.jpg",
+        title: "Tiếng Nói Lãnh Đạo",
+        desc: "Sự hiện diện của phụ nữ trên các bục diễn giả và hội nghị truyền cảm hứng tự tôn sâu sắc cho mọi độ tuổi."
+    },
+    {
+        img: "equality.jpg",
+        title: "Bình Đẳng Giới Khắp Nơi",
+        desc: "Sự bình đẳng trong gia đình là hạt giống để lan tỏa một xã hội văn minh, tôn trọng tự do và loại bỏ hoàn toàn bạo lực."
+    },
+    {
+        img: "woman_leader.jpg",
+        title: "Giá Trị Đích Thực",
+        desc: "Mọi vai trò trong gia đình đều vô giá. Không có việc nào là thấp kém, không có nghĩa vụ nào chỉ dành riêng cho ai."
+    },
+    {
+        img: "cooking.jpg",
+        title: "Hạnh Phúc Là San Sẻ",
+        desc: "Chặng đường xây dựng tổ ấm không phải là cuộc thi xem ai hi sinh nhiều hơn, mà là hành trình cùng nhau gánh vác hạnh phúc."
     }
 ];
 
 export const paintingData = [
   // Front Wall (Items 0-3)
   ...Array.from({ length: 4 }, (_, i) => {
-    const titleParts = sourceData[i].title.split(':');
-    const isYear = !isNaN(titleParts[0]) && titleParts[0].length === 4;
     return {
       imgSrc: `images/${sourceData[i].img}`,
       width: 5,
@@ -90,18 +100,15 @@ export const paintingData = [
       rotationY: 0,
       info: {
         title: sourceData[i].title,
-        artist: 'Nguồn: Lịch Sử Việt Nam',
+        artist: 'Trưng bày: Nghệ Thuật Đương Đại',
         description: sourceData[i].desc,
-        year: isYear ? `Năm: ${titleParts[0]}` : 'Chủ đề: Tư Tưởng Hồ Chí Minh',
-        
+        year: 'Chủ đề: Tình Yêu & Sự San Sẻ',
       },
     };
   }),
   // Back Wall (Items 4-7)
   ...Array.from({ length: 4 }, (_, i) => {
     const dataIndex = i + 4;
-    const titleParts = sourceData[dataIndex].title.split(':');
-    const isYear = !isNaN(titleParts[0].substring(0,4)); // Handle "1959-1975" case
     return {
       imgSrc: `images/${sourceData[dataIndex].img}`,
       width: 5,
@@ -110,18 +117,15 @@ export const paintingData = [
       rotationY: Math.PI,
       info: {
         title: sourceData[dataIndex].title,
-        artist: 'Nguồn: Lịch Sử Việt Nam',
+        artist: 'Trưng bày: Nghệ Thuật Đương Đại',
         description: sourceData[dataIndex].desc,
-        year: isYear ? `Giai đoạn: ${titleParts[0]}` : 'Chủ đề: Tư Tưởng Hồ Chí Minh',
-        
+        year: 'Chủ đề: Quyền & Cơ Hội',
       },
     };
   }),
   // Left Wall (Items 8-11)
   ...Array.from({ length: 4 }, (_, i) => {
     const dataIndex = i + 8;
-    const titleParts = sourceData[dataIndex].title.split(':');
-    const isYear = !isNaN(titleParts[0]) && titleParts[0].length === 4;
     return {
       imgSrc: `images/${sourceData[dataIndex].img}`,
       width: 5,
@@ -130,18 +134,15 @@ export const paintingData = [
       rotationY: Math.PI / 2,
       info: {
         title: sourceData[dataIndex].title,
-        artist: 'Nguồn: Lịch Sử Việt Nam',
+        artist: 'Trưng bày: Nghệ Thuật Đương Đại',
         description: sourceData[dataIndex].desc,
-        year: isYear ? `Năm: ${titleParts[0]}` : 'Chủ đề: Đổi Mới & Hội Nhập',
+        year: 'Chủ đề: Gia Đình Kiểu Mới',
       },
     };
   }),
-  // Right Wall (Items 12-13)
-  ...Array.from({ length: 2 }, (_, i) => {
+  // Right Wall (Items 12-15)
+  ...Array.from({ length: 4 }, (_, i) => {
     const dataIndex = i + 12;
-    // For these abstract concepts, title usually doesn't have a year at start
-    const titleParts = sourceData[dataIndex].title.split(':');
-    const isYear = !isNaN(titleParts[0]) && titleParts[0].length === 4; 
     return {
       imgSrc: `images/${sourceData[dataIndex].img}`,
       width: 5,
@@ -150,9 +151,9 @@ export const paintingData = [
       rotationY: -Math.PI / 2,
       info: {
         title: sourceData[dataIndex].title,
-        artist: 'Nguồn: Lịch Sự Việt Nam',
+        artist: 'Trưng bày: Phụ Nữ Thời Đại Mới',
         description: sourceData[dataIndex].desc,
-        year: isYear ? `Năm: ${titleParts[0]}` : 'Giá trị: Đại Đoàn Kết',
+        year: 'Giá trị: Bình Đẳng',
       },
     };
   }),

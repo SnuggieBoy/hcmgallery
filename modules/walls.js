@@ -15,7 +15,7 @@ export function createWalls(scene, textureLoader) {
   roughnessTexture.wrapS = roughnessTexture.wrapT = THREE.RepeatWrapping;
 
   const wallMaterial = new THREE.MeshStandardMaterial({
-    color: 0xe8d0a9, // Colonial Yellow for Vietnam History vibe
+    color: 0xf1f5f9, // Modern Slate White for an elegant art gallery vibe
     normalMap: normalTexture,
     roughnessMap: roughnessTexture,
     side: THREE.DoubleSide,
